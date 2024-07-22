@@ -77,27 +77,9 @@ void TermControlUiaTextRange::_TranslatePointToScreen(til::point* clientPoint) c
 {
     const gsl::not_null<TermControlUiaProvider*> provider = static_cast<TermControlUiaProvider*>(_pProvider);
 
-    const auto includeOffsets = [](long clientPos, double termControlPos, double padding, double scaleFactor) {
-        auto result = base::ClampedNumeric<double>(padding);
-        // only the padding is in DIPs now
-        result *= scaleFactor;
-        result += clientPos;
-        result += termControlPos;
-        return result;
-    };
-
-    // update based on TermControl location (important for Panes)
-    UiaRect boundingRect;
-    THROW_IF_FAILED(provider->get_BoundingRectangle(&boundingRect));
-
-    // update based on TermControl padding
-    const auto padding = provider->GetPadding();
-
-    // Get scale factor for display
-    const auto scaleFactor = provider->GetScaleFactor();
-
-    clientPoint->x = includeOffsets(clientPoint->x, boundingRect.left, padding.left, scaleFactor);
-    clientPoint->y = includeOffsets(clientPoint->y, boundingRect.top, padding.top, scaleFactor);
+    const auto point = provider->GetContentOrigin();
+    clientPoint->x += point.x;
+    clientPoint->y += point.y;
 }
 
 // Method Description:
@@ -111,27 +93,9 @@ void TermControlUiaTextRange::_TranslatePointFromScreen(til::point* screenPoint)
 {
     const gsl::not_null<TermControlUiaProvider*> provider = static_cast<TermControlUiaProvider*>(_pProvider);
 
-    const auto includeOffsets = [](long screenPos, double termControlPos, double padding, double scaleFactor) {
-        auto result = base::ClampedNumeric<double>(padding);
-        // only the padding is in DIPs now
-        result /= scaleFactor;
-        result -= screenPos;
-        result -= termControlPos;
-        return result;
-    };
-
-    // update based on TermControl location (important for Panes)
-    UiaRect boundingRect;
-    THROW_IF_FAILED(provider->get_BoundingRectangle(&boundingRect));
-
-    // update based on TermControl padding
-    const auto padding = provider->GetPadding();
-
-    // Get scale factor for display
-    const auto scaleFactor = provider->GetScaleFactor();
-
-    screenPoint->x = includeOffsets(screenPoint->x, boundingRect.left, padding.left, scaleFactor);
-    screenPoint->y = includeOffsets(screenPoint->y, boundingRect.top, padding.top, scaleFactor);
+    const auto point = provider->GetContentOrigin();
+    screenPoint->x -= point.x;
+    screenPoint->y -= point.y;
 }
 
 til::size TermControlUiaTextRange::_getScreenFontSize() const noexcept

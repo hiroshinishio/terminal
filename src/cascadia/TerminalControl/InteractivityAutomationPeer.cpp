@@ -37,11 +37,12 @@ namespace winrt::Microsoft::Terminal::Control::implementation
 
     void InteractivityAutomationPeer::SetControlBounds(const Windows::Foundation::Rect bounds)
     {
-        _controlBounds = til::rect{ til::math::rounding, bounds };
+        _controlBounds = { til::math::rounding, bounds };
     }
     void InteractivityAutomationPeer::SetControlPadding(const Core::Padding padding)
     {
-        _controlPadding = til::rect{ til::math::rounding, padding };
+        const auto scale = GetScaleFactor();
+        _controlPadding = { til::math::rounding, padding.Left * scale, padding.Top * scale, padding.Right * scale, padding.Bottom * scale };
     }
     void InteractivityAutomationPeer::ParentProvider(AutomationPeer parentProvider)
     {

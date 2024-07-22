@@ -143,10 +143,11 @@ private:
     void _SendKeyEvent(WORD vkey, WORD scanCode, WORD flags, bool keyDown) noexcept;
     void _SendCharEvent(wchar_t ch, WORD scanCode, WORD flags) noexcept;
 
+    float GetScaleFactor() const noexcept;
+
     // Inherited via IControlAccessibilityInfo
     til::size GetFontSize() const noexcept override;
     til::rect GetBounds() const noexcept override;
-    float GetScaleFactor() const noexcept override;
     void ChangeViewport(const til::inclusive_rect& NewWindow) override;
     HRESULT GetHostUiaProvider(IRawElementProviderSimple** provider) noexcept override;
     til::rect GetPadding() const noexcept override;

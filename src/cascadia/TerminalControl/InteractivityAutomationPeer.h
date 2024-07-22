@@ -66,7 +66,6 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         virtual til::size GetFontSize() const noexcept override;
         virtual til::rect GetBounds() const noexcept override;
         virtual til::rect GetPadding() const noexcept override;
-        virtual float GetScaleFactor() const noexcept override;
         virtual void ChangeViewport(const til::inclusive_rect& NewWindow) override;
         virtual HRESULT GetHostUiaProvider(IRawElementProviderSimple** provider) override;
 #pragma endregion
@@ -78,6 +77,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
 
     private:
         Windows::UI::Xaml::Automation::Provider::ITextRangeProvider _CreateXamlUiaTextRange(::ITextRangeProvider* returnVal) const;
+        virtual float GetScaleFactor() const noexcept;
 
         ::Microsoft::WRL::ComPtr<::Microsoft::Terminal::TermControlUiaProvider> _uiaProvider;
         winrt::Microsoft::Terminal::Control::implementation::ControlInteractivity* _interactivity;

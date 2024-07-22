@@ -324,7 +324,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         }
     }
 
-    void ControlInteractivity::TouchPressed(const Core::Point contactPoint)
+    void ControlInteractivity::TouchPressed(const winrt::Windows::Foundation::Point contactPoint)
     {
         _touchAnchor = contactPoint;
     }
@@ -380,7 +380,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         _core->SetHoveredCell(terminalPosition.to_core_point());
     }
 
-    void ControlInteractivity::TouchMoved(const Core::Point newTouchPoint,
+    void ControlInteractivity::TouchMoved(const winrt::Windows::Foundation::Point newTouchPoint,
                                           const bool focused)
     {
         if (focused &&
